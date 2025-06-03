@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Button from './Button'
+import { Authcontext } from '../AuthProvider'
 
 
 
 const Main = () => {
+  const {loggedIn,setLoggedIn}=useContext(Authcontext)
   return (
    <>
    
@@ -15,7 +17,13 @@ const Main = () => {
         <p className='text-light lead'>
         StockVision uses cutting-edge Machine Learning algorithms to analyze market trends, historical data, and financial indicators — helping you make smarter, data-driven investment decisions. Whether you're a seasoned trader or a market newcomer, our platform gives you powerful insights into stock price movements with high accuracy.
         </p>
-        {/* <Button text='Explore Now' class='btn-outline-info' url="/dashboard"/> */}
+        {loggedIn?(
+        <Button text='Dashboard' class='btn-outline-info' url="/Dashboard"/>
+      ):(
+        <>
+         <Button text='Login' class='btn-outline-info' url="/Login"/>
+        </>
+      )}
       </div>
     </div>
    

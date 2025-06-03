@@ -101,9 +101,9 @@ const Dashboard = () => {
                 </div>
                 <div className='text-light p-3'>
                     <h4>Model Evaluation</h4>
-                    <p>Mean Squared Error:{mse}</p>
-                    <p>Root Mean Squared Error:{rmse}</p>
-                    <p>R Squared:{r2}</p>
+                    <p>Mean Squared Error:- {mse}</p>
+                    <p>Root Mean Squared Error:- {rmse}</p>
+                    <p>R Squared:- {r2}</p>
                 </div>
             </div>
                 </>
