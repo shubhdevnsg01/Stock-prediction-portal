@@ -12,6 +12,10 @@ const Dashboard = () => {
     const[mse,setMse]=useState()
     const[rmse,setRMse]=useState()
     const[r2,setR2]=useState()
+    const [showPlot, setShowPlot] = useState(false);
+    const [showMA100, setShowMA100] = useState(false);
+    const [showMA200, setShowMA200] = useState(false);
+    const [showFinal, setShowFinal] = useState(false);
     useEffect(()=>{
     const fetchProtectedData = async()=>{
         try{
@@ -31,7 +35,7 @@ const Dashboard = () => {
             const response= await axiosInstance.post('/predict/',{
                 ticker:ticker
             })
-            const backendRoot= process.env.BACKEND_ROOT
+            
             const plotURL=`http://127.0.0.1:8000${response.data.plot_image}`
             const ma100URL=`http://127.0.0.1:8000${response.data.plot_100dma_image}`
             const ma200URL=`http://127.0.0.1:8000${response.data.plot_200dma_image}`
@@ -70,78 +74,61 @@ const Dashboard = () => {
                 </form>
                 
             </div>
-            {final &&  (
-                <>
-                <div className='Prediction'>
-                <div className='p-5'>
-                    {plot && (
-                        <img src={plot} alt='Plot' style={{maxWidth:'100%'}}/>
-                    )}
-                </div>
+             <div>
+      
+      {final && (
+        <>
+          {/* Toggle Buttons Side by Side */}
+          <div>
+            <div className="toggle-buttons">
+            <button onClick={() => setShowPlot(!showPlot)} className="btn btn-primary">
+              Main Prediction Plot
+            </button>
+            <button onClick={() => setShowMA100(!showMA100)} className="btn btn-primary">
+              MA100 Plot
+            </button>
+            <button onClick={() => setShowMA200(!showMA200)} className="btn btn-warning">
+              MA200 Plot
+            </button>
+            <button onClick={() => setShowFinal(!showFinal)} className="btn btn-success">
+              Final Results
+            </button>
+          </div>
+          </div>
+
+          {/* Collapsible Sections */}
+          {showPlot && plot && (
+            <div className="Prediction p-3">
+              <img src={plot} alt="Plot" style={{ maxWidth: '100%' }} />
             </div>
-             <div className='ma100'>
-                <div className='p-5'>
-                    {ma100 && (
-                        <img src={ma100} alt='Plot' style={{maxWidth:'100%'}}/>
-                    )}
-                </div>
+          )}
+
+          {showMA100 && ma100 && (
+            <div className="ma100 p-3">
+              <img src={ma100} alt="MA100 Plot" style={{ maxWidth: '100%' }} />
             </div>
-             <div className='ma200'>
-                <div className='p-5'>
-                    {ma200 && (
-                        <img src={ma200} alt='Plot' style={{maxWidth:'100%'}}/>
-                    )}
-                </div>
+          )}
+
+          {showMA200 && ma200 && (
+            <div className="ma200 p-3">
+              <img src={ma200} alt="MA200 Plot" style={{ maxWidth: '100%' }} />
             </div>
-             <div className='final'>
-                <div className='p-5'>
-                    {final && (
-                        <img src={final} alt='Plot' style={{maxWidth:'100%'}}/>
-                    )}
-                </div>
-                <div className='text-light p-3'>
-                    <h4>Model Evaluation</h4>
-                    <p>Mean Squared Error:- {mse}</p>
-                    <p>Root Mean Squared Error:- {rmse}</p>
-                    <p>R Squared:- {r2}</p>
-                </div>
+          )}
+
+          {showFinal && final && (
+            <div className="final p-3">
+              <img src={final} alt="Final Plot" style={{ maxWidth: '100%' }} />
+              <div className="text-light p-3 bg-dark mt-2 rounded">
+                <h4>Model Evaluation</h4>
+                <p>Mean Squared Error: {mse}</p>
+                <p>Root Mean Squared Error: {rmse}</p>
+                <p>R Squared: {r2}</p>
+              </div>
             </div>
-                </>
-            )}
-            {/* <div className='Prediction'>
-                <div className='p-5'>
-                    {plot && (
-                        <img src={plot} alt='Plot' style={{maxWidth:'100%'}}/>
-                    )}
-                </div>
-            </div>
-             <div className='ma100'>
-                <div className='p-5'>
-                    {ma100 && (
-                        <img src={ma100} alt='Plot' style={{maxWidth:'100%'}}/>
-                    )}
-                </div>
-            </div>
-             <div className='ma200'>
-                <div className='p-5'>
-                    {ma200 && (
-                        <img src={ma200} alt='Plot' style={{maxWidth:'100%'}}/>
-                    )}
-                </div>
-            </div>
-             <div className='final'>
-                <div className='p-5'>
-                    {final && (
-                        <img src={final} alt='Plot' style={{maxWidth:'100%'}}/>
-                    )}
-                </div>
-                <div className='text-light p-3'>
-                    <h4>Model Evaluation</h4>
-                    <p>Mean Squared Error:{mse}</p>
-                    <p>Root Mean Squared Error:{rmse}</p>
-                    <p>R Squared:{r2}</p>
-                </div>
-            </div> */}
+          )}
+        </>
+      )}
+    </div>
         </div>
     </div>
    </>
